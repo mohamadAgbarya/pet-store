@@ -1,16 +1,23 @@
+import React, { useState } from "react";
 import Home from "./pages/home/home";
 import "./App.css";
 import AppRouting from "./router/router";
-import NavbarMain from "./components/navbar/navbar";
 import Footer from "./components/footer/footer";
 import AppProvider from "./Context";
 
 function App() {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchElementCategory, setSearchElementCategory] = useState("");  
+  
   return (
     <AppProvider>
       <div>
-        <NavbarMain />
-        <AppRouting />
+        <AppRouting
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          searchElementCategory={searchElementCategory}
+          setSearchElementCategory={setSearchElementCategory}
+        />
         <Footer />
       </div>
     </AppProvider>

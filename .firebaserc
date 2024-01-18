@@ -1,5 +1,9 @@
 {
   "projects": {
-    "public": "build"
-  }
+    "public": "build",
+    "pet-website": "pet-website-2f3f5",
+    "default": "pet-website-2f3f5"
+  },
+  "targets": {},
+  "etags": {}
 }

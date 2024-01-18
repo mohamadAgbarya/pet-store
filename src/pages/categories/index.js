@@ -8,14 +8,18 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase.config";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection, doc, getDoc, getDocs,
+  query, where
+} from "firebase/firestore";
 import { useHistory } from "react-router-dom";
 
-function Food() {
+function Food({ searchElementCategory }) {
   const { category } = useParams();
   const [data, setData] = useState([]);
   const [CategoryName, setCategoryName] = useState([]);
 
+  console.log(searchElementCategory, "searchElementCategorysearchElementCategory")
   async function GetCategoryName() {
     const docRef = doc(db, "Categories", category);
     const docSnap = await getDoc(docRef);
@@ -31,6 +35,35 @@ function Food() {
     },
     { category }
   );
+
+  useEffect(() => {
+    async function getsearchdata() {
+      const querySnapshot = searchElementCategory
+        ? await new Promise((resolve) => {
+          setTimeout(async () => {
+            const result = await getDocs(
+              query(
+                collection(db, "Belts"),
+                where("name", "==", searchElementCategory)
+              )
+            );
+            resolve(result);
+          }, 1000); // 2 seconds delay
+        })
+        : await getDocs(query(collection(db, CategoryName)));
+
+      const products = [];
+
+      console.log(products, "querySnapshotquerySnapshot")
+
+      querySnapshot.forEach((doc) => {
+        products.push({ id: doc.id, ...doc.data() });
+      });
+      setData(products);
+    }
+
+    getsearchdata();
+  }, [searchElementCategory]);
 
   async function GetData() {
     const docSnap = await getDocs(collection(db, category));
