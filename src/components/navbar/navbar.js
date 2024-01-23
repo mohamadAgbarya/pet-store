@@ -52,6 +52,7 @@ function NavbarMain({
     signOut(auth)
       .then(() => {
         localStorage.removeItem("token");
+        localStorage.removeItem("isAdmin");
         history.push("/login");
       })
       .catch((error) => {
@@ -89,19 +90,20 @@ function NavbarMain({
             ) : (
               <Nav.Link href="/posts">Posts</Nav.Link>
             )}
-
-            <Nav.Link href="/add-items">
-              {/* ADD */}
-              <img
-                style={{
-                  width: "40px",
-                  alignItems: "center",
-                  alignContent: "center",
-                }}
-                src={AddIcon}
-                alt="Add"
-              />
-            </Nav.Link>
+            {localStorage.getItem("isAdmin") === "true" &&
+              < Nav.Link href="/add-items">
+                {/* ADD */}
+                <img
+                  style={{
+                    width: "40px",
+                    alignItems: "center",
+                    alignContent: "center",
+                  }}
+                  src={AddIcon}
+                  alt="Add"
+                />
+              </Nav.Link>
+            }
 
             {window.location.pathname == "/posts" && (
               <Nav.Item>
@@ -171,7 +173,7 @@ function NavbarMain({
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </Navbar >
   );
 }
 

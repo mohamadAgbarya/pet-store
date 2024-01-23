@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Wave from "../../assests/wave.png";
+import outofstock from "../../assests/out.png";
 import "./index.css";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -54,7 +55,6 @@ function Food({ searchElementCategory }) {
 
       const products = [];
 
-      console.log(products, "querySnapshotquerySnapshot")
 
       querySnapshot.forEach((doc) => {
         products.push({ id: doc.id, ...doc.data() });
@@ -101,10 +101,26 @@ function Food({ searchElementCategory }) {
                     <div
                       className="cardClass"
                       onClick={() =>
-                        history.push(`/update-items/${category}/${a?.id}`)
+                        localStorage.getItem("isAdmin") === "true" ?
+                          history.push(`/update-items/${category}/${a?.id}`) : ""
                       }
+
+
                     >
                       <Card style={{ width: "18rem" }}>
+                        {a.inStock === false &&
+                          <Card.Img
+                            variant="top"
+                            style={{
+                              position: 'absolute',
+                              width: '30%',
+                              left: '-30px',
+                              top: '-20px',
+                            }}
+
+                            src={outofstock}
+                          />
+                        }
                         <Card.Img
                           variant="top"
                           style={{
@@ -113,7 +129,10 @@ function Food({ searchElementCategory }) {
                             objectFit: "contain",
                           }}
                           onClick={() =>
-                            history.push(`/update-items/${category}/${a?.id}`)
+                            localStorage.getItem("isAdmin") === "false" ?
+                              history.push(`/update-items/${category}/${a?.id}`) : ""
+                            // }
+                            //     history.push(`/update-items/${category}/${a?.id}`)
                           }
                           src={`https://firebasestorage.googleapis.com/v0/b/pet-website-2f3f5.appspot.com/o/images%2F${a?.image}?alt=media`}
                         />
@@ -125,7 +144,7 @@ function Food({ searchElementCategory }) {
                             Category: {a?.category}
                           </ListGroup.Item>
                           <ListGroup.Item>
-                            {a?.inStock ? "In " : "Out of "} Stock
+                            Price: $ {a.price}
                           </ListGroup.Item>
                         </ListGroup>
                       </Card>
@@ -139,7 +158,7 @@ function Food({ searchElementCategory }) {
           </Row>
         </Container>
       </div>
-    </div>
+    </div >
   );
 }
 

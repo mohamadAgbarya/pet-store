@@ -132,8 +132,7 @@ function Feed({ selectedCategory }) {
     <>
       <Nav
         style={{
-          position: "fixed",
-          zIndex: 2,
+         
           display: "flex",
           justifyContent: "center",
           alignItems: "center", // Add this line for vertical centering

@@ -33,15 +33,12 @@ function Login() {
       .login(formValue)
       .then(async (cred) => {
         const token = cred.user.accessToken;
-        // const docRef = doc(db, "users", cred.user.uid);
-        // const docSnap = await getDoc(docRef);
-        // const user_data = docSnap.data();
         localStorage.setItem("token", JSON.stringify(token));
+        if (formValue.email === "admin@gmail.com") {
+          localStorage.setItem("isAdmin", "true");
+        }
         toast.success("Login Successfull");
-        // try {
-        // } catch (error) {
-        // }
-        // toast.success("Login Successfully")
+
         setTimeout(() => {
           if (localStorage.getItem("token")) {
             history.push("/posts");
