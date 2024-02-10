@@ -45,7 +45,7 @@ function Food({ searchElementCategory }) {
             const result = await getDocs(
               query(
                 collection(db, "Belts"),
-                where("name", "==", searchElementCategory)
+                where("name", ">=", searchElementCategory)
               )
             );
             resolve(result);

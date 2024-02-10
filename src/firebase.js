@@ -143,7 +143,6 @@ class Firebase {
 
   searchProducts = (searchKey) => {
     let didTimeout = false;
-
     return new Promise((resolve, reject) => {
       (async () => {
         const productsRef = this.db.collection("products");

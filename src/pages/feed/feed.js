@@ -17,7 +17,8 @@ import {
   collection,
   getDocs,
   query,
-  where
+  where,
+  orderBy
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -101,33 +102,38 @@ function Feed({ selectedCategory }) {
     );
   };
 
+
   useEffect(() => {
     async function GetData() {
-      const querySnapshot = selectedCategory
-        ? await new Promise((resolve) => {
-          setTimeout(async () => {
-            const result = await getDocs(
-              query(
-                collection(db, "posts"),
-                where("category", "==", selectedCategory)
-              )
-            );
-            resolve(result);
-          }, 1000); // 2 seconds delay
-        })
-        : await getDocs(query(collection(db, "posts")));
-
-      const products = [];
-
-      querySnapshot.forEach((doc) => {
-        products.push({ id: doc.id, ...doc.data() });
-      });
-      setData(products);
+      try {
+        let querySnapshot;
+        if (selectedCategory) {
+          // Add your delay using setTimeout
+          await new Promise(resolve => setTimeout(resolve, 2000));
+  
+          // Fetch data with query conditions
+          querySnapshot = await getDocs(
+            query(
+              collection(db, "posts"),
+              where("category", ">=", selectedCategory),
+              orderBy("category", "asc")
+            )
+          );
+        } else {
+          // Fetch all data
+          querySnapshot = await getDocs(query(collection(db, "posts")));
+        }
+  
+        const products = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setData(products);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
-
+  
     GetData();
-  }, [openModal === false, selectedCategory]);
-
+  }, [openModal, selectedCategory]); // Ensure correct dependencies are included
+  
   return (
     <>
       <Nav
@@ -169,7 +175,7 @@ function Feed({ selectedCategory }) {
                   overflow: "hidden",
                 }}
                 onClick={
-                  item?.category == "Adopted"
+                  item?.category == "adopted"
                     ? () => {
                       setShow(true);
                       setAdoptedData(item);
@@ -188,10 +194,10 @@ function Feed({ selectedCategory }) {
                     width: "150px",
                     textAlign: "center",
                   }}
-                  className={`${item?.category == "Adopted" ? "bg-success" : "bg-info"
+                  className={`${item?.category == "adopted" ? "bg-success" : "bg-info"
                     } text-light font-weight-bold py-2`}
                 >
-                  {item?.category == "Adopted" ? "Adopted" : "Sell"}
+                  {item?.category == "adopted" ? "Adopted" : "Sell"}
                 </div>
                 <Card.Img
                   style={{ height: "300px", objectFit: "cover" }}
@@ -229,7 +235,7 @@ function Feed({ selectedCategory }) {
 
 const initialState = {
   description: "",
-  category: "Adopted",
+  category: "adopted",
 };
 
 function MyVerticallyCenteredModal(props) {
@@ -428,11 +434,11 @@ function MyVerticallyCenteredModal(props) {
             onChange={onHandleChange}
             value={data.category}
           >
-            <option value="Adopted">Adopted</option>
-            <option value="Sell">Sell</option>
+            <option value="adopted">Adopted</option>
+            <option value="sell">Sell</option>
           </Form.Select>
 
-          {data.category == "Adopted" && (
+          {data.category == "adopted" && (
             <>
               <p className="mt-4">Add Phone Number</p>
               <input
@@ -446,7 +452,7 @@ function MyVerticallyCenteredModal(props) {
               />
             </>
           )}
-          {data.category == "Sell" && (
+          {data.category == "sell" && (
             <>
               <p className="mt-4">Price</p>
               <input
