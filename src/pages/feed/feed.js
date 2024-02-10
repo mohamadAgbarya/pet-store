@@ -132,7 +132,7 @@ function Feed({ selectedCategory }) {
     <>
       <Nav
         style={{
-         
+
           display: "flex",
           justifyContent: "center",
           alignItems: "center", // Add this line for vertical centering
@@ -201,7 +201,9 @@ function Feed({ selectedCategory }) {
                 />
                 <Card.Body>
                   <Card.Text>Description: {item.description}</Card.Text>
-                  {item?.price ? <Card.Text>Price: ${item?.price}</Card.Text> : <Card.Text>Contact: {item?.phoneNumber}</Card.Text>}
+                  {item?.price ? <Card.Text>
+                    {item.price === "No Price" ? <span></span> : `Price: ${item.price}`}
+                  </Card.Text> : <Card.Text>Contact: {item?.phoneNumber}</Card.Text>}
                 </Card.Body>
               </Card>
               <br />
