@@ -27,6 +27,8 @@ import { db, storage } from "../../firebase.config";
 
 
 function Feed({ selectedCategory }) {
+
+  // these are silply for all data of adopeted and sell data
   const [openModal, setopenModal] = useState(false);
   const [data, setData] = useState([]);
 
@@ -65,6 +67,8 @@ function Feed({ selectedCategory }) {
   };
 
   const SellModal = () => {
+
+    // modal desgin for payment
     return (
       <>
         <Modal show={sellShow} onHide={() => setSellShow(false)}>
@@ -104,13 +108,15 @@ function Feed({ selectedCategory }) {
 
 
   useEffect(() => {
+
+    // function that show all the data of pets
     async function GetData() {
       try {
         let querySnapshot;
         if (selectedCategory) {
           // Add your delay using setTimeout
           await new Promise(resolve => setTimeout(resolve, 2000));
-  
+
           // Fetch data with query conditions
           querySnapshot = await getDocs(
             query(
@@ -123,17 +129,17 @@ function Feed({ selectedCategory }) {
           // Fetch all data
           querySnapshot = await getDocs(query(collection(db, "posts")));
         }
-  
+
         const products = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setData(products);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
-  
+
     GetData();
   }, [openModal, selectedCategory]); // Ensure correct dependencies are included
-  
+
   return (
     <>
       <Nav
@@ -280,7 +286,7 @@ function MyVerticallyCenteredModal(props) {
       [event.target.name]: event.target.value,
     });
   };
-
+  // function for get all the data of pets includting image which goto firebase
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!files) {

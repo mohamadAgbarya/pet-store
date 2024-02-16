@@ -13,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 const initialState = {
     email: "",
 };
+
+// this is forget password function which use firebase when user write email then it will goto firebase api and you will get email
 function ForgetPassword() {
     const [formValue, setFormValue] = useState(initialState);
     const history = useHistory();

@@ -15,12 +15,14 @@ import {
 } from "firebase/firestore";
 import { useHistory } from "react-router-dom";
 
+// this file i for all the items for show in home page like belts
+
 function Food({ searchElementCategory }) {
   const { category } = useParams();
   const [data, setData] = useState([]);
   const [CategoryName, setCategoryName] = useState([]);
 
-  console.log(searchElementCategory, "searchElementCategorysearchElementCategory")
+
   async function GetCategoryName() {
     const docRef = doc(db, "Categories", category);
     const docSnap = await getDoc(docRef);
@@ -37,6 +39,7 @@ function Food({ searchElementCategory }) {
     { category }
   );
 
+  // function for search data
   useEffect(() => {
     async function getsearchdata() {
       const querySnapshot = searchElementCategory

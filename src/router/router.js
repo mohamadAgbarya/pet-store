@@ -24,6 +24,7 @@ export default function AppRouting(props) {
 
   const isAuthenticated = !!localStorage.getItem("token"); // Check if token is present in local storage
   return (
+    // They are all routes like when you have to make another pages first you have add routes in this
     <Router>
       <div>
         <NavbarMain
@@ -54,6 +55,7 @@ export default function AppRouting(props) {
             <ForgetPassword />
           </ProtectedRoutes>
 
+            {/* isAuthenticated is that when you login then this work */}
           <Route path="/login">
             {isAuthenticated ? <Redirect to="/" /> : <Login />}
           </Route>

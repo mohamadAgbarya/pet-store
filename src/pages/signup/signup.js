@@ -20,6 +20,7 @@ function Signup() {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
+  // function for signup form in this data will goto firebase and then push to login page if data is valid
   const onFormSubmit = async (event) => {
     event.preventDefault();
     try {

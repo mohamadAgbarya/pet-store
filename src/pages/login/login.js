@@ -12,6 +12,8 @@ const initialState = {
   email: "",
   password: "",
 };
+
+//this is login function inwhich when user fill the form and then check the password and id with firebase if valid then redirect to home page with toke save in  local storage  
 function Login() {
   const [formValue, setFormValue] = useState(initialState);
   const history = useHistory();

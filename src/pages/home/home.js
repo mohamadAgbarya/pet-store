@@ -8,6 +8,8 @@ import HomeTwo from "../../assests/homeTwo.png";
 import HomeTwoFood from "../../assests/homeTwoFood.png";
 import "./home.css";
 
+
+// this is simple home page design
 function Home() {
   return (
     <div className="homeMainDiv">
